@@ -1,19 +1,19 @@
 #include<stdio.h>
 int num,result;
 
-int checkError();
-int checkEven();
+int checkError(int);
+int checkEven(int);
 int main()
 {
 //	int num,result;
 
 	printf("Enter a positive number:");
 	scanf("%d",&num);
-	checkError();
-	checkEven();
+	checkError(num);
+	checkEven(num);
 	return 0;
 }
-int checkError()
+int checkError(int x)
 {
 	while (num < 0) {
 	printf("\nError!Enter a positive number only:");
@@ -21,7 +21,7 @@ int checkError()
 	}
 	return 0 ; 
 }
-int checkEven()
+int checkEven(int y) 
 {
 	result=num%2;
 	if (result == 0) {
@@ -29,6 +29,7 @@ int checkEven()
 	}
 	else	{
 		printf("\n%d is an Odd number\n",num);
-	return 0 ;
-}
+	}
+return 0 ;
+
 }
