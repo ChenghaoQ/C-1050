@@ -1,3 +1,6 @@
+//Name: Chenghao Qian
+//pawprint: cqnp3
+//Lab section: G
 #include<stdio.h>
 int num,result;
 
