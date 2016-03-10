@@ -133,10 +133,10 @@ int common_numbers(int array1[],int array2[],int size)
 				if(array1[i]==array2[j]&&array1[i]==k){
 						common++;
 						k++;
-				}
-				j++;
-			}
-		i++;	
+				j++;}
+			j=0;
+		i++;}
+		i=0;	
 		}
 	}
 	return common;
