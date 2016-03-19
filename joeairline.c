@@ -16,7 +16,10 @@ void printMessage(char name[],char num[]);
 int main(void)
 {
 	srand(time(NULL));
-	char fligh_1[ROW][COL],fligh_2[ROW][COL],fligh_3[ROW][COL],strings[];
+	char flight_1[ROW][COL],flight_2[ROW][COL],flight_3[ROW][COL];
+	char input_password[MAX],input_pawprint[MAX],name[MAX],flight_number[MAX];
+	char adminPawprint[]="slbyb9"
+	char adminPassword[]="cmp_sc1050"
 	int cost Matrix[ROW][COL]={{300,200,200,300},
 	 			   {300,200,200,300},
 	    			   {300,200,200,300},
@@ -33,11 +36,20 @@ int main(void)
 		
 	switch(option){
 		
-		case 1:
-
-
-
-
+		case 1:	
+			do{
+			printf("\nAdmin Pawprint: ");
+			scanf("%s",input_pawprint);
+			printf("\nAdmin Password: ");
+			scanf("%s",input_password);
+			if (loginMatch(adminPawprint,input_pawprint) ==0 || loginMatch(adminPassword,input_password)==0){
+				printf("\nInvalid Pawpint and Password combination\n");
+			}while (loginMatch(adminPawprint,input_pawprint) ==0 || loginMatch(adminPassword,input_password)==0);
+			printf("\nPrinting the Flight Map of flight Columbia to Miami...\n");
+			printFlightMap(flight_1);
+			printf("\nnPrinting the Flight Map of flight Columbia to Nashville...\n");
+			printFlightMap(flight_2);
+			printf("\nPrinting the Flight Map of flight Columbia to Las Vegas...\n");
 
 		case 2:
 
@@ -81,13 +93,13 @@ void printFlightMap(char flight[][COL])
 int loginMatch(char string1[],char string2[])
 {	int i=0;
 	for(i=0;i<MAX;i++){
-		if (string1[i] == "\0" && string2[i] == "\O"){
+		if (string1[i] == "\0" && string2[i] == "\0"){
 			return 1;
 		}
-		else if(string1[i] =="\O"){
+		else if(string1[i] =="\0"){
 			return 0;
 		}
-		else if(string2[i] =="\O"){
+		else if(string2[i] =="\0"){
 			return 0;
 		}
 		else if(string1[i] != string2[i]){
