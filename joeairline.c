@@ -26,7 +26,7 @@ int main(void)
 	char input_password[MAX],input_pawprint[MAX],name[MAX]={'\0'},flight_number[MAX]={'\0'};
 	char adminPawprint[]="slbyb9";
 	char adminPassword[]="cmp_sc1050";
-	char flight_Miami[]="MIA050",flight_Nashville[]="BNA1050",flight_Lasvegas[]="LAS1050";
+	char flight_Miami[]="MIA1050",flight_Nashville[]="BNA1050",flight_Lasvegas[]="LAS1050";
 
 	
 	initialSeats(flight_1,rand()%30);
@@ -59,7 +59,7 @@ int main(void)
 				printFlightMap(flight_2);
 				printf("\nPrinting the Flight Map of flight Columbia to Las Vegas...\n");
 				printFlightMap(flight_3);
-				printf("\nThe total earning from all the flights: %d \n\n ",getTotalRevenue(flight_1,flight_2,flight_3));
+				printf("\nThe total earning from all the flights:$ %d \n\n ",getTotalRevenue(flight_1,flight_2,flight_3));
 				break;
 			case 2:
 				do{
@@ -84,12 +84,15 @@ int main(void)
 				}
 
 				else{
-					for(i=0;flight_Lasvegas != '\0';i++){
+					for(i=0;flight_Lasvegas[i] != '\0';i++){
 						flight_number[i]=flight_Lasvegas[i];
 					}
 					seatReservation(flight_3); 
 				}
-
+				printf("\nIs this your flight?");
+				for(i =0;flight_number[i]!='\0';i++){
+					printf("%c",flight_number[i]);
+					}
 				printf("\n\nCongrats! %s, your flight %s is booked, Your e-ticket number is: \n",name,flight_number);
 					printMessage(name,flight_number);
 				break;
@@ -221,8 +224,8 @@ void printMessage(char name[],char num[])
 	int i=0,j=0;
 	char msg[MAX];
 	
-while(i<MAX){
-		if(name[i] && num[j] !='\0'){
+while(name[j]!='\0'||num[j]!='\0'){
+		if(name[j] && num[j] !='\0'){
 			msg[i]=name[j];
 			msg[i+1]=num[j];
 			j++;
@@ -238,11 +241,14 @@ while(i<MAX){
 			msg[i]=name[j];
 			j++;
 			i++;
+		}	
+		else if(num[j] =='\0' && name[j]=='\0'){
+			break;
 		}
 }
 
 	int z=0;
-	while(z<MAX)
+	while(msg[z]!='\0')
 	
 	{	printf("%c",msg[z]);
 		z++;
