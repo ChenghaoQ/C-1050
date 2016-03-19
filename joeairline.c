@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-#include<string.h>
 #define ROW 6
 #define COL 4
 #define MAX 25
@@ -27,6 +26,8 @@ int main(void)
 	char input_password[MAX],input_pawprint[MAX],name[MAX]={'\0'},flight_number[MAX]={'\0'};
 	char adminPawprint[]="slbyb9";
 	char adminPassword[]="cmp_sc1050";
+	char flight_Miami[]="MIA050",flight_Nashville[]="BNA1050",flight_Lasvegas[]="LAS1050";
+
 	
 	initialSeats(flight_1,rand()%30);
 	initialSeats(flight_2,rand()%30);
@@ -57,6 +58,7 @@ int main(void)
 				printf("\n\nPrinting the Flight Map of flight Columbia to Nashville...\n");
 				printFlightMap(flight_2);
 				printf("\nPrinting the Flight Map of flight Columbia to Las Vegas...\n");
+				printFlightMap(flight_3);
 				printf("\nThe total earning from all the flights: %d \n\n ",getTotalRevenue(flight_1,flight_2,flight_3));
 				break;
 			case 2:
@@ -67,17 +69,24 @@ int main(void)
 				}while(flight_choice<1 || flight_choice>3);
 				printf("\nEnter your first name: ");
 				scanf("%s",name);
+				int i;
 				if (flight_choice == 1){
-					strcpy(flight_number,"MIA1050");
+					for(i=0;flight_Miami[i]!='\0';i++){
+						flight_number[i]=flight_Miami[i];
+					}	
 					seatReservation(flight_1); 
 				}
 				else if(flight_choice ==2){
-					strcpy(flight_number,"BNA1050");					
+					for(i=0;flight_Nashville[i]!='\0';i++){
+						flight_number[i]=flight_Nashville[i];
+					}	
 					seatReservation(flight_2); 
 				}
 
 				else{
-					strcpy(flight_number,"LAS1050");
+					for(i=0;flight_Lasvegas != '\0';i++){
+						flight_number[i]=flight_Lasvegas[i];
+					}
 					seatReservation(flight_3); 
 				}
 
