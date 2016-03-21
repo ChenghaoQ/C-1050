@@ -224,7 +224,7 @@ void printMessage(char name[],char num[])
 	int i=0,j=0;
 	char msg[MAX];
 	
-while(name[j]!='\0'||num[j]!='\0'){
+	do{
 		if(name[j] && num[j] !='\0'){
 			msg[i]=name[j];
 			msg[i+1]=num[j];
@@ -245,7 +245,8 @@ while(name[j]!='\0'||num[j]!='\0'){
 		else if(num[j] =='\0' && name[j]=='\0'){
 			break;
 		}
-}
+
+	}while(name[j]!='\0' || num[j]!='\0');
 
 	int z=0;
 	while(msg[z]!='\0')
