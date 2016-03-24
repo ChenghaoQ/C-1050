@@ -222,7 +222,7 @@ void seatReservation(char flight[][COL])
 void printMessage(char name[],char num[])
 {
 	int i=0,j=0;
-	char msg[MAX];
+	char msg[MAX+8]={'\0'};
 	
 	do{
 		if(name[j] && num[j] !='\0'){
