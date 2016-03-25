@@ -126,17 +126,15 @@ int number_count(int array[],int size, int number)
 
 int common_numbers(int array1[],int array2[],int size)
 {	
-	int i,j,k=0,common=0;
+	int i,j,k,common=0;
 	for(k=0;k<10;k++){
-		while(i<size){
-			while(j<size){
-				if(array1[i]==array2[j]&&array1[i]==k){
+		for(i=0;i<size;i++){
+			for(j=0;j<size;j++){
+				if(array1[i]==array2[j] && array1[i]==k){
 						common++;
 						k++;
-				j++;}
-			j=0;
-		i++;}
-		i=0;	
+				}
+			}
 		}
 	}
 	return common;
