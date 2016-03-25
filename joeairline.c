@@ -89,11 +89,7 @@ int main(void)
 					}
 					seatReservation(flight_3); 
 				}
-				printf("\nIs this your flight?");
-				for(i =0;flight_number[i]!='\0';i++){
-					printf("%c",flight_number[i]);
-					}
-				printf("\n\nCongrats! %s, your flight %s is booked, Your e-ticket number is: \n",name,flight_number);
+				printf("\n\nCongrats! %s, your flight %s is booked, Your e-ticket number is: ",name,flight_number);
 					printMessage(name,flight_number);
 				break;
 
