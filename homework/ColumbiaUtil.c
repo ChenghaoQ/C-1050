@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-=======
-//Name:Chenghao Qian
-//pawprint: cqnp3
-//lab :G
->>>>>>> 617bef31942ae8bd3455f8795954a989d4fe1e05
 #include<stdio.h>
 
 int main()
