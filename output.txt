@@ -1,0 +1,14 @@
+1109    500.00
+2229    942.00
+2371    2011.75
+3125    8779.73
+4981    537.65
+5410    1745.35
+7402    1000.45
+9036    -1655.00
+
+The highest amount is 942.00 in the account number 2229
+
+The lowest amount is -1655.00 in the account number 9036
+
+The average amount is 1732.00
