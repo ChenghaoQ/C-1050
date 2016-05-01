@@ -149,8 +149,11 @@ int update_data(char*name,int*acct,float*amount,int count)
 				}
 			}
 			j++;
-		}
+	
 	}
+	}
+	free(uacct);
+	free(uamount);
 	fclose(ufPtr);
 	return 1;
 }
