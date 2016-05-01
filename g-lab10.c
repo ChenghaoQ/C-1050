@@ -11,19 +11,19 @@ char* reverse(char *s);
 int compare(char *a,char *b);
 char* merge(char *a,char *b);
 int palindrome(char *a);
+void clear(char *);
 int main ()
 {
 	char *s, *p;
-	int i,len=length(s);
 	printf("Enter first string: ");
 	s=malloc(sizeof(char)*(MAX));
 	scanf("%s",s);
 	
 	
-	printf("First string is %s\n Length of the string is %d\n Copy  of string is %s\nReverse of the string %s is %s\n",s,len,copy(s),s,reverse(s));
+	printf("First string is %s\n Length of the string is %d\n Copy  of string is %s\nReverse of the string %s is %s\n",s,length(s),copy(s),s,reverse(s));
 	printf("Enter a string for compare operation:");
-	scanf("%s",p);
 	p=malloc(sizeof(char)*length(p));
+	scanf("%s",p);
 	if(compare(s,p)!=0){
 		if(compare(s,p)>0){
 			printf("The string %s is Bigger than %s",s,p);}
@@ -32,21 +32,22 @@ int main ()
 	}
 	char *a;
 	printf("\nEnter a new string for the merge operation:");
-	scanf("%s",a);
 	a=malloc(sizeof(char)*length(a));
-	printf("New merged string is %s",a);
+	scanf("%s",a);
+	printf("New merged string is %s",merge(s,a));
 
 	char *b;
 	printf("\nEnter a new string to check for palidrome");
+	
+	b=malloc(sizeof(char)*MAX);
 	scanf("%s",b);
-	b=malloc(sizeof(char)*length(b));
 	if(palindrome(b)==1){
-		printf("%s is a palindrome");}
+		printf("%s is a palindrome\n",b);}
 	else{
-		printf("%s is not a palindrome");}
+		printf("%s is not a palindrome\n",b);}
 	
 	
-	//clear(p);
+	clear(p);clear(s);clear(a);clear(b);
 
 	return 0;
 
@@ -82,7 +83,7 @@ char* reverse(char *s)
 	char *p,len=length(s),i,j=0;
 	p=malloc(sizeof(char)*len+1);
 	
-	for(i=len;i>0;i--){
+	for(i=len-1;i>=0;i--){
 		*(p+j)=*(s+i);
 		j++;} /**/
 	
@@ -99,7 +100,7 @@ int compare(char *a, char *b)
 		if(*(a+i)!=*(b+i)){
 			return *(a+i)-*(b+i);}}
 
-	return 1;
+	return 0;
 }
 
 char* merge(char*a,char *b)
@@ -110,7 +111,7 @@ char* merge(char*a,char *b)
 
 	do{
 		*(p+j)=*(a+i);
-		*(p+j)=*(b+i);
+		*(p+j+1)=*(b+i);
 		j+=2;
 		i++;
 	}while(*(a+i)!='\0' && *(b+i)!='\0');
@@ -130,10 +131,9 @@ char* merge(char*a,char *b)
 	
 int palindrome(char *a)
 {
-	if (a==reverse(a))
+	if(compare(a,reverse(a))==0)
 		return 1;
-	else
-		return 0;
+	return 0;
 }
 	
 
