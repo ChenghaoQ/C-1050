@@ -83,6 +83,7 @@ int main(int argc,char **argv)
 		i++;	
 	}
 	printf("\n\nThe student who is closest to graduate has ID#: %d",closestToGraduate(a));
+	free(a);
 	return 0;
 }
 
