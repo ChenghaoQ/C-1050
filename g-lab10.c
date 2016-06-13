@@ -22,7 +22,7 @@ int main ()
 	
 	printf("First string is %s\n Length of the string is %d\n Copy  of string is %s\nReverse of the string %s is %s\n",s,length(s),copy(s),s,reverse(s));
 	printf("Enter a string for compare operation:");
-	p=malloc(sizeof(char)*length(p));
+	p=malloc(sizeof(char)*50);
 	scanf("%s",p);
 	if(compare(s,p)!=0){
 		if(compare(s,p)>0){
@@ -32,7 +32,7 @@ int main ()
 	}
 	char *a;
 	printf("\nEnter a new string for the merge operation:");
-	a=malloc(sizeof(char)*length(a));
+	a=malloc(sizeof(char)*50);
 	scanf("%s",a);
 	printf("New merged string is %s",merge(s,a));
 

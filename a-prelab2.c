@@ -17,73 +17,72 @@ int closestToGraduate(Student* students);
 
 Student* readFile(char* filename)
 {
+	
+	Student *s;
+	s=malloc(sizeof(Student)*300);
 	int i=0;
-	Student **students;
-	//students = malloc(sizeof(Student)*100);
 	FILE* ofPtr;
 	if ((ofPtr = fopen(filename,"r"))==NULL)
 	{
-		return 0;
+		return NULL;
 	}
 	else
 	{
-		while(fscanf(ofPtr,"%d%f%d",&*(students+i))!=EOF)
+		while(fscanf(ofPtr,"%d%f%d",&(*(s+i)).ID,&(s+i)->GPA,&s[i].creditHoursRemaining)!=EOF)
 		{
+			//Three ways to express s[i]
+			//printf("%d %f %d\n",(*(s+i)).ID,(s+i)->GPA,s[i].creditHoursRemaining);
+			
 			i++;
+			
 		}
-	
 		
-		fclose(ofPtr);
 	}
-	
-	printf("%d",students[0]->ID);
-	
-	return *students;
+	fclose(ofPtr);
+
+	return s;//return a pointer of array s
 }
 
 
 int closestToGraduate(Student* students)
 {
-	
+	int closest=(*(students+0)).creditHoursRemaining;
+	int idnum=(*(students+0)).ID;
+	int i;
+	while((*(students+i)).ID!='\0')
+	{
+		if((*(students+i)).creditHoursRemaining<closest)
+			closest = (*(students+i)).creditHoursRemaining;
+			idnum = (*(students+i)).ID;
+		
+		i++;
+	}
 
 
-
-	return 0;
+	return idnum;
 }
 
 int main(int argc,char **argv)
 {
-	Student **students/*s*/;
+	Student *a/*s*/;
 	int i;
 	
-	if (argc<3||argc>3)
+	if (argc<2||argc>2)
 	{
-		printf("Incorrect number of arguments\n(inputfile,outputfile, lines to read\n");
+		printf("Incorrect number of arguments\n(inputfile only\n");
 		return 1;
 	}
 
-	int count = atoi(*(argv+2));
-	students = malloc(sizeof(int)*2*count+sizeof(float)*count);
-
-	*students=readFile(*argv+1);
-	for(i=0;*(students+i)!='\0';i++)
-	{		
-		printf("%d %f %d\n",*(students+i));
-	}
-	if(*(students+5)!=NULL)
+	
+	a = malloc(sizeof(Student)* 300+1);
+	a=readFile(*(argv+1));
+	
+	while((*(a+i)).ID!='\0')
 	{
-		printf("YES\n");
+		printf("%d %f %d\n",a[i].ID,a[i].GPA,a[i].creditHoursRemaining);
+		i++;	
 	}
-	else
-	{
-		printf("NO");
-	}
-	printf("%d %f %d\n",*(students));
-	printf("%d %f %d\n",*(students+1));
-	printf("%d %f %d\n",*(students+2));
-	printf("%d %f %d\n",*(students+3));
-	//printf("---%d----",students->ID);
-
+	printf("\n\nThe student who is closest to graduate has ID#: %d",closestToGraduate(a));
 	return 0;
 }
 
