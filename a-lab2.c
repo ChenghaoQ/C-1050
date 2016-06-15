@@ -133,6 +133,7 @@ int main(int argc, char **argv)
 	printf("\nBest Percentage Sold: %d\n",bestper.ID);
 	printf("\nBest Daily Profit: %d\n",bestprofit.ID); 
 	printf("\nThe earliest sellout: %d\n",early.ID);
+	free(records);
 	return 0;
 }
 	
