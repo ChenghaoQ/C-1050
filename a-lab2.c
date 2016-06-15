@@ -27,6 +27,7 @@ Record* ReadRecords(char* filename)
 	FILE* ofPtr;
 	if((ofPtr = fopen(filename,"r"))==NULL)
 	{
+		free(reco);
 		return NULL;
 	}
 	else
@@ -39,6 +40,7 @@ Record* ReadRecords(char* filename)
 	if(i<124){
 		return NULL; ///////////////////////////////////////
 	}
+	printf("%p\t",reco);
 	fclose(ofPtr);
 	return reco;
 }
@@ -68,6 +70,7 @@ Record BestDailyProfit(Record * records)
 {
 	float highprofit=(float)(records[0].ticketsSold*records[0].ticketPrice)/(float)records[0].numDays,perpro;
 	int markdown;
+
 	int i=0;
 	while(i<125)
 	{
@@ -90,13 +93,12 @@ Record BestDailyProfit(Record * records)
 Record EarliestSellout(Record* records)
 {
 	float soldavg,timeleft,shortest=10000.00;
-	int i,rest,hold;
+	int i=0,rest,hold;
 	while(i<124)
 	{
 		soldavg=(float)records[i].ticketsSold/(float)records[i].numDays;
 		rest=records[i].totalTickets-records[i].ticketsSold;
 		timeleft=(float)rest/(float)soldavg;
-		printf("%f %f\n",shortest,timeleft);
 		if(timeleft<shortest)
 		{
 			shortest=timeleft;
@@ -110,22 +112,18 @@ Record EarliestSellout(Record* records)
 
 int main(int argc, char **argv)
 {
-	Record *records,bestper,bestprofit,early;
-	
-
+	Record *records=ReadRecords(*(argv+1)),bestper,bestprofit,early;
+	printf("%p\t",records);
 	if(argc>2|| argc<2)
 	{
 		printf("Incorrect number of arguments\n");
 	}
 	
-	records= malloc(sizeof(Record)*200);
-
-	if(ReadRecords(*(argv+1))!=NULL)
+	
+	if(records==NULL)
 	{
-		records=ReadRecords(*(argv+1));
-	}
-	else{
 		printf("Something wrong with file, please check\n");
+		return 1;
 	}
 	bestper=BestPercentageSold(records);
 	bestprofit=BestDailyProfit(records);
@@ -133,6 +131,7 @@ int main(int argc, char **argv)
 	printf("\nBest Percentage Sold: %d\n",bestper.ID);
 	printf("\nBest Daily Profit: %d\n",bestprofit.ID); 
 	printf("\nThe earliest sellout: %d\n",early.ID);
+	free(records);
 	return 0;
 }
 	
