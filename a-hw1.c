@@ -153,7 +153,22 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 
 
 void updateBoard(Board* board, int x, int y);
-int countMines(Board* squares,int x, int y);
+int countMines(Board* squares,int x, int y)
+{
+	int i,j,mines=0;
+
+	for(i=-1;i<=1;i++)
+	{
+		for(j=-1;j<=1;j++)
+		{
+			if((*(*(squares->squares+i)+j)).T==MINE)
+			{
+				mines++;
+			}
+		}
+	}
+	return mines;
+}
 void freeBoard(Board* board);
 
 
