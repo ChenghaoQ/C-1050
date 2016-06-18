@@ -100,44 +100,55 @@ int main(int argc,char **argv)
 
 Board* randomizedBoard(int rows,int columns, int numMines)
 {
-	Board* bor;
-	Square** sqr;
 	int mines=0,r,c,i,j;
+	Board* board;
+	//Initializing
+	board->numRows=rows;
+	board->numColumns=columns;
+	board->numMines=numMines;
+	board->numRemaining=numMines;
+	board->s=PLAYING;
 
-	sqr=malloc(sizeof(*sqr)*rows);
-	//initialize the array
+	//set up the squares
+	board->squares=malloc(sizeof(*board->squares)*rows);//May have a problem here
 	for(i=0;i<rows;i++)
 	{
-		*(sqr+i)=malloc(sizeof(*(*(sqr+j)))*columns);
+		*(board->squares+i)=malloc(sizeof(*(*(board->squares+j)))*columns);
 		for(j=0;j<columns;j++)
 		{
 			//set the attribute to each square
-			(*(*(sqr+i)+j)).T=0; //== sqr[i][j].T=NOTAMINE
-			(*(*(sqr+i)+j)).C=0;
-			(*(*(sqr+i)+j)).surroundingMines=-2;
+			(*(*(board->squares+i)+j)).T=NOTAMINE; //== sqr[i][j].T=NOTAMINE
+			(*(*(board->squares+i)+j)).C=COVERED;
+			(*(*(board->squares+i)+j)).surroundingMines=-2;
 		}
 
 	}
+
+
 	//set up the mines
 	do{
 		r=rand()%rows;
 		c=rand()%columns;
-		if((*(*(sqr+r)+c)).T==0)
+		if((*(*(board->squares+r)+c)).T==NOTAMINE)
 		{
-			(*(*(sqr+r)+c)).T=1;
+			(*(*(board->squares+r)+c)).T=MINE;
 			mines++;
 		}
 	}while(mines<numMines);
 	
 	//call countMines to set the surroundingMines value of !each! square
-	//countMines(Board* squares,int x,int y)
+	for(i=0;i<rows;i++)
+	{
+		for(j=0;j<columns;j++)
+		{
+			if((*(*(board->squares+i)+j)).T==NOTAMINE)
+			{
+				countMines(board,i,j);
+			}
+		}
+	}
 
-
-
-
-
-
-
+	return board;
 }
 
 
