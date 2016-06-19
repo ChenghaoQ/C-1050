@@ -143,7 +143,7 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 		{
 			if((*(*(board->squares+i)+j)).T==NOTAMINE)
 			{
-				countMines(board,i,j);
+				(*(*(board->squares+i)+j)).surroundingMines=countMines(board,i,j);
 			}
 		}
 	}
