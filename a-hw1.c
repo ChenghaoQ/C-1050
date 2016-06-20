@@ -157,16 +157,24 @@ int countMines(Board* squares,int x, int y)
 {
 	int i,j,mines=0;
 
-	for(i=-1;i<=1;i++)
+	if((*(*(squares->squares+x)+y)).T==MINE)
 	{
-		for(j=-1;j<=1;j++)
+		(*(*(squares->squares+i)+j).surroundingMines=-1;
+	}
+	else
+	{
+		for(i=-1;i<=1;i++)
 		{
-			if((*(*(squares->squares+i)+j)).T==MINE)
+			for(j=-1;j<=1;j++)
 			{
-				mines++;
+				if((*(*(squares->squares+i)+j)).T==MINE)
+				{
+					mines++;
+				}
 			}
 		}
 	}
+	(*(*(squares->squares+i)+j).surroundingMines=mines;
 	return mines;
 }
 void freeBoard(Board* board);
