@@ -8,6 +8,7 @@ int fib(int x);
 int main()
 {
 	int i,num,*arr,f;
+	arr=malloc(sizeof(int)*20);
 	printf("Give me a number:");
 	scanf("%d",&num);
 	printf("\nSum of digits of %d is %d",num,sumOfDigits(num));
