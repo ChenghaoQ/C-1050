@@ -139,16 +139,16 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 	}while(mines<numMines);
 	
 	//call countMines to set the surroundingMines value of !each! square
-	for(i=0;i<rows;i++)
-	{
-		for(j=0;j<columns;j++)
+				
+	do{
+		r=rand()%rows;
+		c=rand()%columns;
+		if((*(*(board->squares+r)+c)).T==NOTAMINE)
 		{
-			if((*(*(board->squares+i)+j)).T==NOTAMINE)
-			{
-				(*(*(board->squares+i)+j)).surroundingMines=countMines(board,i,j);
-			}
+			countMines(board,r,c);
 		}
-	}
+	}while((*(*(board->squares+r)+c)).T!=NOTAMINE);
+
 
 	return board;
 }
@@ -193,10 +193,6 @@ int countMines(Board* squares,int x, int y)
 {
 	int i,j,mines=0;
 	//check if in the field
-	if(x<0||x>squares->numColumns-1||y<0||y>squares->numRows-1)
-	{
-		return 0;
-	}
 	
 	//if in the field
 	for(i=-1;i<=1;i++)
@@ -204,16 +200,21 @@ int countMines(Board* squares,int x, int y)
 		for(j=-1;j<=1;j++)
 		
 		{
+			if(x+i<0||x+i>squares->numColumns-1||y+j<0||y+j>squares->numRows-1)
+			{
+				return 0;
+			}
 			if((*(*(squares->squares+x+i)+y+j)).surroundingMines==-2)
 			{
 				if(countMines(squares,x+i,x+y)==1)
 				{
 					mines++;
+					printf("Mines found\n");
 				}
 			}
 		}
 	}
-
+	printf("\n\n\n\n");
 
 
 	(*(*(squares->squares+x)+y)).surroundingMines=mines;
