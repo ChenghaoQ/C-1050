@@ -102,6 +102,7 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 {
 	int mines=0,r,c,i,j;
 	Board* board;
+	board=malloc(sizeof(Board));
 	//Initializing
 	board->numRows=rows;
 	board->numColumns=columns;
@@ -152,30 +153,80 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 }
 
 
-void updateBoard(Board* board, int x, int y);
+void updateBoard(Board* board, int x, int y)
+{
+	int i,j;
+	if((*(*(board->squares+x)+y)).surroundingMines==-1)
+	{
+		board->s=LOST;
+		return;
+	}
+	else if ((*(*(board->squares+x)+y)).surroundingMines!=-1)
+	{
+		(*(*(board->squares+x)+y)).C=UNCOVERED;
+		board->numRemaining--;
+	}
+	if ((*(*(board->squares+x)+y)).surroundingMines==0)
+	{	
+		for(i=-1;i<=1;i++)
+		{
+			for(j=-1;j<=-1;j++)
+			{
+				if((*(*(board->squares+x+i)+y+j)).surroundingMines!=-1)
+				{
+					updateBoard(board,x+i,y+j);
+				}
+			}
+		}
+	}
+
+		
+
+
+	if(board->numRemaining==0)
+	{
+		board->s=WON;
+	}
+}
 int countMines(Board* squares,int x, int y)
 {
 	int i,j,mines=0;
-
-	if((*(*(squares->squares+x)+y)).T==MINE)
+	//check if in the field
+	if(x<0||x>squares->numColumns-1||y<0||y>squares->numRows-1)
 	{
-		(*(*(squares->squares+i)+j).surroundingMines=-1;
+		return 0;
 	}
-	else
+	
+	//if in the field
+	for(i=-1;i<=1;i++)
 	{
-		for(i=-1;i<=1;i++)
+		for(j=-1;j<=1;j++)
+		
 		{
-			for(j=-1;j<=1;j++)
+			if((*(*(squares->squares+x+i)+y+j)).surroundingMines==-2)
 			{
-				if((*(*(squares->squares+i)+j)).T==MINE)
+				if(countMines(squares,x+i,x+y)==1)
 				{
 					mines++;
 				}
 			}
 		}
 	}
-	(*(*(squares->squares+i)+j).surroundingMines=mines;
-	return mines;
+
+
+
+	(*(*(squares->squares+x)+y)).surroundingMines=mines;
+	if((*(*(squares->squares+x)+y)).T==MINE)
+	{
+		(*(*(squares->squares+x)+y)).surroundingMines=-1;
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+
+			
 }
 void freeBoard(Board* board);
 
