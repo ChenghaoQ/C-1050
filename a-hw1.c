@@ -91,6 +91,7 @@ int main(int argc,char **argv)
 	printUncoveredBoard(b);
 
 	freeBoard(b);
+	printf("\x1B[0m\n\n");
 
 
 	return 0;
@@ -108,7 +109,7 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 	board->numRows=rows;
 	board->numColumns=columns;
 	board->numMines=numMines;
-	board->numRemaining=numMines;
+	board->numRemaining=(rows*columns)-numMines;
 	board->s=PLAYING;
 
 	//set up the squares
@@ -134,21 +135,22 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 		if((*(*(board->squares+r)+c)).T==NOTAMINE)
 		{
 			(*(*(board->squares+r)+c)).T=MINE;
-			(*(*(board->squares+r)+c)).surroundingMines=-1;
+//			(*(*(board->squares+r)+c)).surroundingMines=-1;
 			mines++;
 		}
 	}while(mines<numMines);
 
-	do{
+	for(i=-1;i<0;i--)
+	{
 		r=rand()%rows;
 		c=rand()%columns;
 		if((*(*(board->squares+r)+c)).T==NOTAMINE)
 		{
 			countMines(board,r,c);
 			printf("We began at %d %d\n",r,c);
-			
+			break;	
 		}
-	}while((*(*(board->squares+r)+c)).T==NOTAMINE);	
+	}
 	//call countMines to set the surroundingMines value of !each! square
 				
 
@@ -159,30 +161,44 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 
 void updateBoard(Board* board, int x, int y)
 {
-//	int i,j;
+	int i,j;
+	printf("--------------%d--------------i\n",board->numRemaining);
 	if((*(*(board->squares+x)+y)).surroundingMines==-1)
 	{
 		board->s=LOST;
 		return;
 	}
-	else if ((*(*(board->squares+x)+y)).surroundingMines!=-1)
+
+	else if ((*(*(board->squares+x)+y)).surroundingMines!=-1 &&(*(*(board->squares+x)+y)).C==COVERED)
 	{
 		(*(*(board->squares+x)+y)).C=UNCOVERED;
 		board->numRemaining--;
+		printf("======NUM Remains: %d ==============\n",board->numRemaining);	
 	}
-	/*if ((*(*(board->squares+x)+y)).surroundingMines==0)
+	if ((*(*(board->squares+x)+y)).surroundingMines==0)
 	{	
-		for(i=-1;i<=1;i++)
+		for(i=-1;i<2;i++)
 		{
-			for(j=-1;j<=-1;j++)
+			for(j=-1;j<2;j++)
 			{
-				if((*(*(board->squares+x+i)+y+j)).surroundingMines!=-1)
+				if(x+i<0||x+i>board->numColumns-1||y+j<0||y+j>board->numRows-1)
 				{
-					updateBoard(board,x+i,y+j);
+					continue;
 				}
-			}
+				if((*(*(board->squares+x+i)+y+j)).C==COVERED && (*(*(board->squares+x+i)+y+j)).surroundingMines!=-1)
+				{
+					(*(*(board->squares+x+i)+y+j)).C=UNCOVERED;
+					board->numRemaining--;
+					printf("======NUM Remains: %d ==============\n",board->numRemaining);
+
+					if((*(*(board->squares+x+i)+y+j)).surroundingMines==0)
+					{
+						updateBoard(board,x+i,y+j);
+					}
+				}
+			}	
 		}
-	}*/
+	}
 
 		
 
@@ -197,45 +213,28 @@ int countMines(Board* squares,int x, int y)
 	int i,j,mines=0;
 	//markdown the square "has been reached"
 	(*(*(squares->squares+x)+y)).surroundingMines=0;
-	
-	
 	for(i=-1;i<2;i++)
 	{
 		for(j=-1;j<2;j++)
-		
 		{
 			//Check if in the field
 			if(x+i<0||x+i>squares->numColumns-1||y+j<0||y+j>squares->numRows-1)
 			{
-				printf("%d %d Over the boarder\nCurrent at %d %d\n\n",x+i,y+j,x,y);
 				//If not in the field
 				continue;
 			}
 			//In the field
-			printf("%d %d In the border\nCurrent at %d %d\n\n",x,y,x+i,y+j);
-			
-			
 			if((*(*(squares->squares+x+i)+y+j)).T==MINE)
 			{
 				mines++;
 			}
-			
 			if((*(*(squares->squares+x+i)+y+j)).surroundingMines==-2)
 			{
-				printf("================Move to another=========");
-				if(countMines(squares,x+i,y+j)==1)
-				{
-					
-					mines++;
-				}
-			//	countMines(squares,x+i,j+y);
+				countMines(squares,x+i,j+y);
 			}
-			continue;
-			
+			continue;	
 		}
 	}
-
-	printf("===================================================");	
 	if((*(*(squares->squares+x)+y)).T==MINE)
 	{
 		(*(*(squares->squares+x)+y)).surroundingMines=-1;
@@ -246,7 +245,6 @@ int countMines(Board* squares,int x, int y)
 		(*(*(squares->squares+x)+y)).surroundingMines=mines;
 		return 0;
 	}
-
 			
 }
 void freeBoard(Board* board)
