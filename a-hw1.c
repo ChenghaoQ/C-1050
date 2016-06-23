@@ -1,3 +1,5 @@
+//Name:Chenghao Qian
+//LAB: A
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -59,7 +61,7 @@ int main(int argc,char **argv)
 		printf("\nSelect a row: ");
 		int r;
 		scanf("%d",&r);
-		while(r<0||r>b->numRows)
+		while(r<0||r>b->numRows-1)
 		{
 			printf("Invalid entry. Please try again:");
 			scanf("%d",&r);
@@ -67,7 +69,7 @@ int main(int argc,char **argv)
 		printf("Select a column:");
 		int c;
 		scanf("%d",&c);
-		while(c<0|| c > b->numColumns)
+		while(c<0|| c > b->numColumns-1)
 		{
 			printf("Invalid entry. Try again:");
 			scanf("%d",&c);
@@ -162,7 +164,7 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 void updateBoard(Board* board, int x, int y)
 {
 	int i,j;
-	printf("--------------%d--------------i\n",board->numRemaining);
+	//printf("--------------%d--------------i\n",board->numRemaining);
 	if((*(*(board->squares+x)+y)).surroundingMines==-1)
 	{
 		board->s=LOST;
@@ -173,7 +175,7 @@ void updateBoard(Board* board, int x, int y)
 	{
 		(*(*(board->squares+x)+y)).C=UNCOVERED;
 		board->numRemaining--;
-		printf("======NUM Remains: %d ==============\n",board->numRemaining);	
+	//	printf("======NUM Remains: %d ==============\n",board->numRemaining);	
 	}
 	if ((*(*(board->squares+x)+y)).surroundingMines==0)
 	{	
@@ -185,16 +187,13 @@ void updateBoard(Board* board, int x, int y)
 				{
 					continue;
 				}
-				if((*(*(board->squares+x+i)+y+j)).C==COVERED && (*(*(board->squares+x+i)+y+j)).surroundingMines!=-1)
+				if((*(*(board->squares+x+i)+y+j)).C==COVERED )
 				{
 					(*(*(board->squares+x+i)+y+j)).C=UNCOVERED;
 					board->numRemaining--;
-					printf("======NUM Remains: %d ==============\n",board->numRemaining);
+	//				printf("======NUM Remains: %d ==============\n",board->numRemaining);
 
-					if((*(*(board->squares+x+i)+y+j)).surroundingMines==0)
-					{
 						updateBoard(board,x+i,y+j);
-					}
 				}
 			}	
 		}
