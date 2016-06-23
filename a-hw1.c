@@ -134,20 +134,24 @@ Board* randomizedBoard(int rows,int columns, int numMines)
 		if((*(*(board->squares+r)+c)).T==NOTAMINE)
 		{
 			(*(*(board->squares+r)+c)).T=MINE;
+			(*(*(board->squares+r)+c)).surroundingMines=-1;
+			printf("\nA mine has been set");
 			mines++;
 		}
 	}while(mines<numMines);
-	
-	//call countMines to set the surroundingMines value of !each! square
-				
+
 	do{
 		r=rand()%rows;
 		c=rand()%columns;
 		if((*(*(board->squares+r)+c)).T==NOTAMINE)
 		{
 			countMines(board,r,c);
+			printf("12312321321312321");
+			break;
 		}
-	}while((*(*(board->squares+r)+c)).T!=NOTAMINE);
+	}while((*(*(board->squares+r)+c)).T==NOTAMINE);	
+	//call countMines to set the surroundingMines value of !each! square
+				
 
 
 	return board;
@@ -167,7 +171,7 @@ void updateBoard(Board* board, int x, int y)
 		(*(*(board->squares+x)+y)).C=UNCOVERED;
 		board->numRemaining--;
 	}
-	if ((*(*(board->squares+x)+y)).surroundingMines==0)
+	/*if ((*(*(board->squares+x)+y)).surroundingMines==0)
 	{	
 		for(i=-1;i<=1;i++)
 		{
@@ -179,7 +183,7 @@ void updateBoard(Board* board, int x, int y)
 				}
 			}
 		}
-	}
+	}*/
 
 		
 
@@ -193,31 +197,41 @@ int countMines(Board* squares,int x, int y)
 {
 	int i,j,mines=0;
 	//check if in the field
+	(*(*(squares->squares+x)+y)).surroundingMines=0;
 	
 	//if in the field
-	for(i=-1;i<=1;i++)
+	for(i=-1;i<2;i++)
 	{
-		for(j=-1;j<=1;j++)
+		for(j=-1;j<2;j++)
 		
 		{
 			if(x+i<0||x+i>squares->numColumns-1||y+j<0||y+j>squares->numRows-1)
 			{
-				return 0;
+				printf("%d %d Over the boarder\nCurrent at %d %d\n\n",x+i,y+j,x,y);
+				continue;
 			}
+			
+			printf("%d %d In the border\nCurrent at %d %d\n\n",x,y,x+i,y+j);
+			
 			if((*(*(squares->squares+x+i)+y+j)).surroundingMines==-2)
 			{
-				if(countMines(squares,x+i,x+y)==1)
+				printf("================Move to another=========");
+				if(countMines(squares,x+i,y+j)==1)
 				{
+					
 					mines++;
-					printf("Mines found\n");
 				}
+			//	countMines(squares,x+i,j+y);
+			}
+			continue;
+			if((*(*(squares->squares+x+i)+y+j)).surroundingMines==-1)
+			{
+				mines++;
 			}
 		}
 	}
-	printf("\n\n\n\n");
 
-
-	(*(*(squares->squares+x)+y)).surroundingMines=mines;
+	printf("===================================================");	
 	if((*(*(squares->squares+x)+y)).T==MINE)
 	{
 		(*(*(squares->squares+x)+y)).surroundingMines=-1;
@@ -225,6 +239,7 @@ int countMines(Board* squares,int x, int y)
 	}
 	else
 	{
+		(*(*(squares->squares+x)+y)).surroundingMines=mines;
 		return 0;
 	}
 
