@@ -18,9 +18,8 @@ int main()
 	
 	int add;
 	do{
-		printf("Enter a number:");
+		printf("Enter a number(-1 for exit):");
 		scanf("%d",&add);
-		printf("-----%d------\n",add);
 		addItem(&startPtr,add);
 		printList(startPtr);
 	}while(add!=-1);
@@ -63,6 +62,7 @@ Item* addItem(Item* *start, int toAdd)
 	{
 		printf("%d not added.No memory available.\n",toAdd);
 	}
+	return *start;
 }
 
 
@@ -74,7 +74,6 @@ void printList(Item* start)
 	}
 	else
 	{
-		printf("The list is:\n");
 
 		while(start !=NULL)
 		{
