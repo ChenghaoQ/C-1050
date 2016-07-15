@@ -143,7 +143,6 @@ Order** importLists(char* filename)
 
 			Order *new;
 			new = malloc(sizeof(Order));
-			printf("New orders\n");
 			if(new!=NULL)
 			{
 				new->ID=x1;
@@ -202,7 +201,7 @@ void printList(Order* firstOrder)
 
 int updateOrder(int ID, Order ** oldList, Order** newList)
 {
-	Order *previous,*current,*temp=NULL;
+	Order *previous=*oldList,*current,*temp=NULL;
 	current=*oldList;
 	if(current->ID==ID)
 	{
@@ -212,14 +211,16 @@ int updateOrder(int ID, Order ** oldList, Order** newList)
 	}
 	while(current!=NULL)
 	{
-		previous=current;
+		//previous=current;
 		if(current->ID==ID)
 		{
 			temp = current;
 			current=current->nextOrder;
 			previous->nextOrder=current;
+			printf("\n\n%d    %d\n\n",previous->ID,temp->ID);
 			break;
 		}
+		previous=current;
 		current=current->nextOrder;
 	}
 	if(temp == NULL)
