@@ -41,7 +41,7 @@ int main(void)
 			//list at all times, we need the root of the
 			//tree at all times. 
 			root = addNodeToTree(root, x);
-			//system("clear");	
+			system("clear");	
 			//A decent way to print out the tree. NOTES ON THE PRINT:
 			//1.	I did not come up with the printing code. 
 			//		Got it on the internet. 
@@ -75,15 +75,18 @@ Node* addNodeToTree(Node* root, int x)
 	if(root==NULL)
 	{
 		root=new;
-		return root;
-	}
-	else if(x>root->num)
-	{
-		root->right=addNodeToTree(root->right,x);
 	}
 	else
-	{
-		root->left=addNodeToTree(root->left,x);
+	{	if(x>root->num)
+		{	
+			free(new);
+			root->right=addNodeToTree(root->right,x);
+		}
+		else
+		{
+			free(new);
+			root->left=addNodeToTree(root->left,x);
+		}
 	}
 	//Remember the questions that you have to ask:
 	//	Am I at a place where I can put a node? (base case)
@@ -92,7 +95,7 @@ Node* addNodeToTree(Node* root, int x)
 	//		(that question helps with handling function returns)
 	//	Is the number that I'm adding already in the tree? Is that okay?
 
-
+	return root;
 }
 
 //COMPLETE ME TOO 
