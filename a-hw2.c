@@ -201,6 +201,11 @@ void printList(Order* firstOrder)
 
 int updateOrder(int ID, Order ** oldList, Order** newList)
 {
+	if(*oldList==NULL)
+	{
+		printf("cannot process, not order in your old list\n");
+		return 0;
+	}	
 	Order *previous=*oldList,*current,*temp=NULL;
 	current=*oldList;
 	if(current->ID==ID)
@@ -217,7 +222,6 @@ int updateOrder(int ID, Order ** oldList, Order** newList)
 			temp = current;
 			current=current->nextOrder;
 			previous->nextOrder=current;
-			printf("\n\n%d    %d\n\n",previous->ID,temp->ID);
 			break;
 		}
 		previous=current;
@@ -257,23 +261,28 @@ int updateOrder(int ID, Order ** oldList, Order** newList)
 }
 int processOldestOrder(Order** firstOrder)
 {
-	int oldest;
-	Order *current,*previous=NULL,*temp,*temprev=NULL;
-	current=*firstOrder;
-	oldest=current->daysInQueue;
+	if(*firstOrder==NULL)
+	{
+		printf("No Orders in the list currently\n");
+		return 0;
+	}
+	Order *current=*firstOrder,*previous=*firstOrder,*temp=*firstOrder,*temprev=NULL;
+	int oldest=current->daysInQueue;
 	while(current)
 	{
-		previous=current;
 		if(current->daysInQueue>oldest)
 		{
 			temprev=previous;
 			temp=current;
+			oldest=current->daysInQueue;
 		}
+		previous=current;
 		current=current->nextOrder;
 	}
-	if(temprev==NULL)
+	if(temp==*firstOrder)
 	{
-		printf("-------------------");
+		*firstOrder=temp->nextOrder;
+		free(temp);
 	}
 	else
 	{
