@@ -26,9 +26,46 @@ int main(int argc,char** argv)
 		printf("Usage: ./a.out <filename>\n");
 		return -1;
 	}
+	Node *root=importTree(argv[1]);
+	int select,i=0;
+	while(i==0)
+	{
+		printf("\n1:find number in a state\n2:find a zip code\n3:exit\n>");
+		scanf("%d",&select);
+		switch(select)
+		{
+			case 1:
+				{
+					char state[3];
+					printf("Enter the state you want to search for:");
+					scanf("%s",state);
+					break;
+					printf("The state has %d results in the sample.\n",findStateCount(root,state));
+				}
+			case 2:
+				{
+					int zipcode;
+					printf("Enter the zip code you want to find:");
+					scanf("%d",&zipcode);
+					Node* result = findZipCode(root,zipcode);
+					if(result == NULL)
+						printf("\nNo result found for %d\n",zipcode);
+					else
+					{
+						printf("\nResult found for %d:\nCity:%s\nState:%s\n",result->zipCode,result->city,result->state);
+						free(result);
+					}
+					break;
+				}
+			case 3:
 
-
-
+				i=-1;
+				break;
+		}
+	}
+	freeTree(root);
+	
+	
 
 
 	return 0;
@@ -131,7 +168,7 @@ int findStateCount(Node* root,char* state)
 	{
 		if(strcmp(root->state,state)==0)
 		{
-			total++;
+			total=1;
 		}
 	}
 	return total+findStateCount(root->left,state)+findStateCount(root->right,state);
