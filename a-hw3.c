@@ -76,70 +76,84 @@ int main(int argc,char** argv)
 
 Node* importTree(char* filename)
 {
+	//setup a root of tree
 	Node* root =NULL;
+	//open File
 	FILE* fp= fopen(filename,"r");
-
+	//File error message
 	if(!fp)
 	{
-		printf("Error opeing file.\n");
+		printf("Error opening file.\n");
 		return NULL;
 	}
-	while(!feof(fp))
+	//while loop to read lines
+	while(!feof(fp))//read to the end of file,feof test if reach the end
 	{
 		Node* new= malloc(sizeof(Node));
 		if(!new)
 		{
 			printf("failed to allcate memory.Ending read.\n");
-			//Quit the program, not return back to main;
-			exit(1);
+			exit(1);//Quit the program, not return back to main;
 		}
+
+		//malloc space for a city name string
 		new->city = malloc(sizeof(char)*MAXCITYNAME);
-		
+		//test if there is enough memory for city name string
 		if(!(new->city))
 		{
 			printf("Failed to allocate memory.Ending read.\n");
 			exit(1);
 		}
-		
+		//set child's pointer default as NULL
 		new->left =NULL;
 		new->right = NULL;
+		// line is to store the whole line as a string
 		char* line = malloc(sizeof(char)*MAXLINELENGTH);
-		
+		//test memory just like cityname
 		if(!line)
 		{
 			printf("Failed to allocate memory.Ending read.\n");
 			exit(1);
 		}
-		
+		//read lines to string line and test if read successfully
 		if(fgets(line,MAXLINELENGTH,fp)==NULL)
 		{
+			//if not read successfully, test if reach the end, if not reach the end, file broke,quit program
 			if(!feof(fp))
 			{
 				printf("File reading ended prematurely.Check for errors in the file.\n");
 				exit(1);
 			}
+			//free the variable newly malloced as they didn't get the value
 			free(new->city);
 			free(line);
 			free(new);
 			fclose(fp);
 			break;
 		}
-		char* tmp = strtok(line,",");//////
-		new->zipCode =atoi(tmp);
+
+		//****** setup a new Node******
+		//tmp stores the splited value  from line {zipcode,cityname,state} 
+		char* tmp = strtok(line,",");//strtok split the line(whole string) into tokens ,delete "," and get zipcode as string
+		new->zipCode =atoi(tmp);//atoi change tmp from str to int
+		tmp=strtok(NULL,",");//tmp get city name(in order to get the next token)
+		strcpy(new->city,tmp);//copy city name to new->city
+		new->city[strlen(tmp)+1]='\0';//set the terminator
 		tmp=strtok(NULL,",");
-		strcpy(new->city,tmp);
-		new->city[strlen(tmp)+1]='\0';
-		tmp=strtok(NULL,",");
-		strcpy(new->state,tmp);
+		strcpy(new->state,tmp);//same as city name
 		new->state[2]='\0';
+		//add Node to tree
 		root = addNode(root,new);
+		//test if file is blank, after first adding  Node to tree, root cannot be none 
 		if(!root)
 		{
 			printf("Root of tree is still NULL!Ending read.\n");
 			exit(1);
 		}
+		//free str line after use
 		free(line);
 	}
+	//return the root of a tree
 	return root;
 }
 
