@@ -52,14 +52,16 @@ int main(int argc,char** argv)
 						printf("\nNo result found for %d\n",zipcode);
 					else
 					{
-						printf("\nResult found for %d:\nCity:%s\nState:%s\n",result->zipCode,result->city,result->state);
-						free(result);
+						printf("\nResult found for %d:\nCity:%s\nState:%s\n",zipcode,result->city,result->state);
 					}
 					break;
 				}
 			case 3:
 
 				i=-1;
+				break;
+			default:
+				printf("Invaild input,please try again\n");
 				break;
 		}
 	}
@@ -92,19 +94,23 @@ Node* importTree(char* filename)
 			exit(1);
 		}
 		new->city = malloc(sizeof(char)*MAXCITYNAME);
+		
 		if(!(new->city))
 		{
 			printf("Failed to allocate memory.Ending read.\n");
 			exit(1);
 		}
+		
 		new->left =NULL;
 		new->right = NULL;
 		char* line = malloc(sizeof(char)*MAXLINELENGTH);
+		
 		if(!line)
 		{
-			printf("Failed to allocate moemory.Ending read.\n");
+			printf("Failed to allocate memory.Ending read.\n");
 			exit(1);
 		}
+		
 		if(fgets(line,MAXLINELENGTH,fp)==NULL)
 		{
 			if(!feof(fp))
@@ -194,6 +200,7 @@ void freeTree(Node* root)
 	{
 		freeTree(root->left);
 		freeTree(root->right);
+		free(root->city);
 		free(root);
 	}
 }
