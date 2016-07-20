@@ -39,8 +39,8 @@ int main(int argc,char** argv)
 					char state[3];
 					printf("Enter the state you want to search for:");
 					scanf("%s",state);
-					break;
 					printf("The state has %d results in the sample.\n",findStateCount(root,state));
+					break;
 				}
 			case 2:
 				{
@@ -175,12 +175,17 @@ int findStateCount(Node* root,char* state)
 }
 Node* findZipCode(Node* root,int zipCode)
 {
-	if(root->zipCode==zipCode)
-		return root;
-	else if(findZipCode(root->left,zipCode)!=NULL)
-		return findZipCode(root->left,zipCode);
-	else if (findZipCode(root->right,zipCode)!=NULL)
-		return findZipCode(root->right,zipCode);
+	if(root!=NULL)
+	{
+		if(root->zipCode==zipCode)
+			return root;
+		Node* left=findZipCode(root->left,zipCode);
+		Node* right=findZipCode(root->right,zipCode);
+		if(left!=NULL)
+			return left;
+		if(right!=NULL)
+			return right;
+	}
 	return NULL;
 }
 void freeTree(Node* root)
